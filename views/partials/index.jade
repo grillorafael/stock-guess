@@ -1,0 +1,44 @@
+.container
+    .row
+        .col-lg-4.col-lg-offset-4.text-center
+            legend Stock Guess
+
+    div(ng-if='stocks.length != 0')
+        .row
+            .col-lg-4.col-lg-offset-4
+                #container(style="height: 200px; min-width: 310px")
+        br
+        .row
+            .col-lg-4.col-lg-offset-4
+                form(ng-submit='sendStock()')
+                    .input-group
+                        input(type='text', ng-model='userStockValue', placeholder='Please type your guess', class='form-control')
+                        span(class="input-group-btn")
+                            button(class="btn btn-default", type="submit") Send
+    .text-center(ng-if='stocks.length == 0')
+        .row
+            .col-lg-4.col-lg-offset-4
+                h4
+                    | You already guessed all of our stock!
+                h4
+                    | Thanks for collaborating
+                h4
+                    | Please come back {{evaluateDate | date}}
+    .row
+        .col-lg-4.col-lg-offset-4.text-center
+            hr
+            p
+                small
+                    | Form submission is private. Your data will only be seen by the people involved in this project.
+            p
+                small
+                    | The purpose of this project is to evaluete the power of &nbsp;
+                    a(href='http://en.wikipedia.org/wiki/Collective_intelligence', target='_blank') Collective Intelligence
+                    |.
+            p
+                small
+                    | This data is for academic purpose. It will not be used any personal benefits.
+            p
+                small
+                    | By sending your guess you agree with our &nbsp;
+                    a(href='#!/terms', target='_blank') terms of use.

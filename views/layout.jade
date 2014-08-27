@@ -1,0 +1,25 @@
+doctype html
+html(ng-app='stock')
+    head
+        title Stock
+        link(rel='stylesheet', href='/libs/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
+    body
+        block content
+        script(src='/libs/jquery/dist/jquery.min.js')
+
+        script(src='/libs/datejs/build/date.js')
+
+        script(src="http://code.highcharts.com/stock/highstock.js")
+        script(src="http://code.highcharts.com/stock/modules/exporting.js")
+
+        script(src='/libs/bootstrap/dist/js/bootstrap.min.js')
+
+        script(src='/libs/angular/angular.js')
+        script(src='/libs/angular-route/angular-route.js')
+
+        script(src='/libs/underscore/underscore-min.js')
+
+        script(src='/js/app.js')
+        script(src='/js/controllers/index.js')
+        script(src='/js/controllers/terms.js')

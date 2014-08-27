@@ -1,5 +1,6 @@
 angular.module('stock')
     .controller('IndexCtrl', ['$scope', 'StockAPI', function($scope, StockAPI) {
+        $scope.sent = false;
         $scope.evaluateDate = Date.today().next().friday();
         $scope.tag = 'stocks_' + $scope.evaluateDate.getTime();
         var alreadySent = JSON.parse(localStorage.getItem($scope.tag));
@@ -14,12 +15,21 @@ angular.module('stock')
         $scope.selected = _.sample($scope.stocks);
         $scope.setTitle($scope.selected);
 
-        $scope.sendStock = function() {
-            var alreadySent = JSON.parse(localStorage.getItem($scope.tag));
-            alreadySent = alreadySent ? alreadySent : [];
-            alreadySent.push($scope.selected);
-            localStorage.setItem($scope.tag, JSON.stringify(alreadySent));
+        $scope.sendStock = function(value) {
+            var value = parseFloat(value);
+            if(isNaN(value)) {
+                $scope.error = true;
+            }
+            else {
+                $scope.error = false;
+                $scope.sent = true;
+                var alreadySent = JSON.parse(localStorage.getItem($scope.tag));
+                alreadySent = alreadySent ? alreadySent : [];
+                alreadySent.push($scope.selected);
+                localStorage.setItem($scope.tag, JSON.stringify(alreadySent));
 
+                // TODO: Send value
+            }
             // TODO: Mostrar mensagem ou atualizar tela
         };
 

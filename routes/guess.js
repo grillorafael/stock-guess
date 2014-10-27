@@ -3,6 +3,7 @@ var router = express.Router();
 var auth = require('../auth/auth');
 var Guess = require('../models/guess');
 var config = require('config');
+var ObjectId = require('mongoose').Types.ObjectId;
 require('datejs');
 
 router.get('/available', function(req, res) {
@@ -17,7 +18,7 @@ router.get('/nextDate', function(req, res) {
 });
 
 router.get('/choice/avaliable', function(req, res) {
-    var choices = config.get('availableStocks');
+    var choices = config.get('availableStocks').slice(0);
     var user = req.user;
 
     Guess.find({

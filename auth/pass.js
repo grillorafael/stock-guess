@@ -4,12 +4,12 @@ var passport = require('passport'),
     User = require('../models/user');
 
 passport.serializeUser(function(user, done) {
-    done(null, user.fbId);
+    done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
     User.findOne({
-        fbId: id
+        _id: id
     }, function(err, user) {
         done(err, user);
     });

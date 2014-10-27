@@ -4,11 +4,15 @@ var passport = require('passport'),
     User = require('../models/user');
 
 passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.fbId);
 });
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
+passport.deserializeUser(function(id, done) {
+    User.findOne({
+        fbId: id
+    }, function(err, user) {
+        done(err, user);
+    });
 });
 
 passport.use(new FacebookStrategy({

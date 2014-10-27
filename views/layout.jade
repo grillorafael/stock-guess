@@ -1,7 +1,8 @@
 doctype html
 html(ng-app='stock')
     head
-        title Stock
+        title Stock Guess
+        meta(name="viewport", content="width=device-width, initial-scale=1")
         link(rel='stylesheet', href='/libs/bootstrap/dist/css/bootstrap.min.css')
         link(rel='stylesheet', href='/css/style.css')
     body
@@ -21,5 +22,8 @@ html(ng-app='stock')
         script(src='/libs/underscore/underscore-min.js')
 
         script(src='/js/app.js')
-        script(src='/js/controllers/index.js')
-        script(src='/js/controllers/terms.js')
+        script(src='/js/services/stock.service.js')
+
+        script(src='/js/controllers/me.controller.js')
+        script(src='/js/controllers/index.controller.js')
+        script(src='/js/controllers/terms.controller.js')

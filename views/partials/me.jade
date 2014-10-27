@@ -1,0 +1,23 @@
+.container
+    .row
+        .col-lg-4.col-lg-offset-4.text-center
+            h1
+                My Guesses
+            hr
+            table(class='table')
+                thead
+                    tr
+                        th(class='text-left')
+                            | Date
+                        th(class='text-center')
+                            | Stock
+                        th(class='text-right')
+                            | Guess
+                tbody
+                    tr(ng-repeat='guess in guesses')
+                        td(class='text-left')
+                            {{guess.createdAt | date}}
+                        td(class='text-center')
+                            {{guess.stockName}}
+                        td(class='text-right')
+                            {{guess.stockValue | currency}}

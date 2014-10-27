@@ -1,0 +1,7 @@
+{
+    "fb": {
+        "id": "357369851107938",
+        "secret": "2b8aa95a5d8730e5fb1feb12d8992e24",
+        "redirect": "http://localhost:3000/auth/facebook/callback"
+    }
+}

@@ -5,8 +5,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var config = require('config');
+
+var session = require('express-session');
+var passport = require('passport');
+var RedisStore = require('connect-redis')(session);
+
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var guess = require('./routes/guess');
+
+var mongoose = require('mongoose');
+mongoose.connect(config.get('db'));
+
+var authRoutes = require('./auth/routes');
 
 var app = express();
 
@@ -19,10 +30,32 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(session({
+    store: new RedisStore(config.get('redis')), // uses Redis Server to store sessions
+    secret: 'MEAN',
+    resave: true,
+    secure: false,
+    maxAge: 86400000,
+    saveUninitialized: true
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/auth/facebook', passport.authenticate('facebook', {
+    scope: ['email']
+}));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/app',
+    failureRedirect: '/'
+}));
+
+app.get('/logout', authRoutes.logout);
+
 app.use('/', routes);
-app.use('/users', users);
+app.use('/api/guess', guess);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

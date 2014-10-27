@@ -20,8 +20,6 @@ passport.use(new FacebookStrategy({
         User.findOne({
             fbId: profile.id
         }).exec(function(err, user) {
-            console.log(profile);
-            console.log(user);
             if(!user) {
                 user = new User();
                 user.email = profile.emails[0].value;

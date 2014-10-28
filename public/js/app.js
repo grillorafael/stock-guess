@@ -22,6 +22,10 @@
                     templateUrl: '/partials/ranking',
                     controller: 'RankingCtrl'
                 })
+                .when('/username', {
+                    templateUrl: '/partials/username',
+                    controller: 'UsernameCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

@@ -2,9 +2,43 @@ var express = require('express');
 var router = express.Router();
 var auth = require('../auth/auth');
 var Guess = require('../models/guess');
+var User = require('../models/user');
 var config = require('config');
 var ObjectId = require('mongoose').Types.ObjectId;
 require('datejs');
+var usernameRegex = /^[a-z0-9_-]{3,16}$/;
+
+router.post('/username', function(req, res) {
+    var params = req.body;
+
+    User.findOne({
+        _id: req.user._id
+    }).exec(function(err, user) {
+        if(user && !user.username) {
+            user.username = params.username;
+            user.save(function(error) {
+                res.json({
+                    err: error
+                });
+            });
+        }
+        else {
+            res.json({
+                err: true
+            });
+        }
+    });
+});
+
+router.get('/has/username', function(req, res) {
+    User.findOne({
+        _id: req.user._id
+    }).exec(function(err, user) {
+        res.json({
+            hasUsername: user.username && usernameRegex.test(user.username)
+        });
+    });
+});
 
 router.get('/available', function(req, res) {
     var availableStocks = config.get('availableStocks');

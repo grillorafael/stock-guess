@@ -8,7 +8,13 @@ router.get('/', function(req, res) {
 });
 
 router.get('/app', auth.ensureAuthenticated, function(req, res) {
-    res.render('app');
+    var user = req.user;
+    var hasUsername = !!user.username;
+
+    res.render('app', {
+        user: user,
+        hasUsername: hasUsername
+    });
 });
 
 router.get('/partials/:name', auth.ensureAuthenticated, function(req, res) {
@@ -17,6 +23,7 @@ router.get('/partials/:name', auth.ensureAuthenticated, function(req, res) {
 });
 
 router.get('/shared/:name', auth.ensureAuthenticated, function(req, res) {
+
     var name = req.params.name;
     res.render('shared/' + name);
 });

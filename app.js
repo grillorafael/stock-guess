@@ -18,6 +18,7 @@ var mongoose = require('mongoose');
 mongoose.connect(config.get('db'));
 
 var authRoutes = require('./auth/routes');
+var auth = require('./auth/auth');
 
 var app = express();
 

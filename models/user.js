@@ -4,7 +4,12 @@ var mongoose = require('mongoose'),
     timestamps = require('mongoose-timestamp');
 
 var UserSchema = new Schema({
-    username: String,
+    username: {
+        type: String,
+        index: {
+            unique: true
+        }
+    },
     gender: String,
     fbId: String,
     fbToken: String,
@@ -12,5 +17,12 @@ var UserSchema = new Schema({
     name: String
 });
 UserSchema.plugin(timestamps);
+
 var User = mongoose.model('User', UserSchema);
+
+User.schema.path('username').validate(function(value) {
+    var usernameRegex = /^[a-z0-9_-]{3,16}$/;
+    return usernameRegex.test(value);
+}, 'Username must be at least 4 characters and must not contain special characters');
+
 module.exports = User;

@@ -1,0 +1,14 @@
+.container
+    .row
+        .col-lg-4.col-lg-offset-4.text-center
+            .loader(ng-if='loading')
+                i.fa.fa-spin.fa-spinner.fa-4x
+            .text-left.content(ng-if='!loading && !hasUsername')
+                form(ng-submit='save()')
+                    div.form-group(ng-class='{"has-error": showErrors}')
+                        label Username
+                        input(class='form-control', ng-model="params.username")
+                    p(ng-show='showErrors', class='help-block text-center') Please enter a valid and unique username
+                    button.btn.btn-primary.btn-block Save
+            .hasUsername(ng-if='!loading && hasUsername')
+                h4 You already has an username

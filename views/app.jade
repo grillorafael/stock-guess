@@ -12,4 +12,7 @@ block content
             ul.nav.navbar-nav.navbar-right
                 li
                     a(href="/logout") Logout
+    if !hasUsername
+        .alert.alert-warning.text-center.nav-alert(ng-hide='hideAlert')
+            | You don't have an <strong>username</strong>. If you want your guesses to be identified please <a href="#_=_/username">set up an username</a>
     div(ng-view)

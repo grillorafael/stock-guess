@@ -70,12 +70,38 @@
             return deferred.promise;
         }
 
+        function saveUsername(params) {
+            var deferred = $q.defer();
+            $http.post('/api/guess/username', params)
+                .success(function(result) {
+                    deferred.resolve(result);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
+        function hasUsername() {
+            var deferred = $q.defer();
+            $http.get('/api/guess/has/username')
+                .success(function(result) {
+                    deferred.resolve(result);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
         return {
             getStockFromTheLast: getStockFromTheLast,
             send: send,
             nextAvailableDate: nextAvailableDate,
             getStockToGuess: getStockToGuess,
-            me: me
+            me: me,
+            saveUsername: saveUsername,
+            hasUsername: hasUsername
         };
     }
 })();

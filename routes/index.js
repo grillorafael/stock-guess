@@ -10,10 +10,12 @@ router.get('/', function(req, res) {
 router.get('/app', auth.ensureAuthenticated, function(req, res) {
     var user = req.user;
     var hasUsername = !!user.username;
+    var hasAgreed = user.agreed;
 
     res.render('app', {
         user: user,
-        hasUsername: hasUsername
+        hasUsername: hasUsername,
+        hasAgreed: hasAgreed
     });
 });
 

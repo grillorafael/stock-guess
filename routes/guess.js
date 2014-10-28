@@ -8,6 +8,22 @@ var ObjectId = require('mongoose').Types.ObjectId;
 require('datejs');
 var usernameRegex = /^[a-z0-9_-]{3,16}$/;
 
+router.post('/agree', function(req, res) {
+    User.findOne({
+        _id: req.user._id
+    }).exec(function(err, user) {
+        if(user) {
+            user.agreed = true;
+            user.save(function(err) {
+                res.redirect('/app');
+            });
+        }
+        else {
+            res.redirect('/app');
+        }
+    });
+});
+
 router.post('/username', function(req, res) {
     var params = req.body;
 

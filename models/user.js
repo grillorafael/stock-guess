@@ -10,6 +10,10 @@ var UserSchema = new Schema({
             unique: true
         }
     },
+    agreed: {
+        type: Boolean,
+        default: false
+    },
     gender: String,
     fbId: String,
     fbToken: String,

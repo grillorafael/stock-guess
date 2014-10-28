@@ -76,7 +76,7 @@ router.get('/me', function(req, res) {
     var user = req.user;
     Guess.find({
         _user: user._id
-    }).exec(function(err, guesses) {
+    }).sort('-createdAt').exec(function(err, guesses) {
         res.json(guesses);
     });
 });

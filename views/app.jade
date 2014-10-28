@@ -1,10 +1,15 @@
 extends layout
 block content
     nav(class="navbar navbar-default navbar-static-top", role="navigation")
-        .navbar-header
-            a(class="navbar-brand", href="/app") Stock Guess
-        .container
+        .container-fluid
+            .navbar-header
+                a(class="navbar-brand", href="/app") Stock Guess
             ul.nav.navbar-nav
                 li
                     a(href="#_=_/me") My Guesses
+                li
+                    a(href="#_=_/ranking") Ranking
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a(href="/logout") Logout
     div(ng-view)

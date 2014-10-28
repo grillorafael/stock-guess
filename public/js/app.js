@@ -18,6 +18,10 @@
                     templateUrl: '/partials/me',
                     controller: 'MeCtrl'
                 })
+                .when('/ranking', {
+                    templateUrl: '/partials/ranking',
+                    controller: 'RankingCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

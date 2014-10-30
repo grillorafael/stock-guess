@@ -26,7 +26,9 @@ passport.use(new FacebookStrategy({
         }).exec(function(err, user) {
             if(!user) {
                 user = new User();
-                user.email = profile.emails[0].value;
+                if(profile.emails.length >= 1) {
+                    user.email = profile.emails[0].value;
+                }
                 user.fbId = profile.id;
                 user.fbToken = accessToken;
                 user.name = profile.displayName;

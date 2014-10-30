@@ -26,7 +26,7 @@ passport.use(new FacebookStrategy({
         }).exec(function(err, user) {
             if(!user) {
                 user = new User();
-                if(profile.emails.length >= 1) {
+                if(profile.emails && profile.emails.length >= 1) {
                     user.email = profile.emails[0].value;
                 }
                 user.fbId = profile.id;

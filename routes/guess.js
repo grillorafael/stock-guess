@@ -6,7 +6,7 @@ var User = require('../models/user');
 var config = require('config');
 var ObjectId = require('mongoose').Types.ObjectId;
 require('datejs');
-var usernameRegex = /^[a-z0-9_-]{3,16}$/;
+var usernameRegex = /^[a-z0-9_-]{3,16}$/i;
 
 router.post('/agree', function(req, res) {
     User.findOne({

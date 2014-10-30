@@ -25,7 +25,7 @@ UserSchema.plugin(timestamps);
 var User = mongoose.model('User', UserSchema);
 
 User.schema.path('username').validate(function(value) {
-    var usernameRegex = /^[a-z0-9_-]{3,16}$/;
+    var usernameRegex = /^[a-z0-9_-]{3,16}$/i;
     return usernameRegex.test(value);
 }, 'Username must be at least 4 characters and must not contain special characters');
 

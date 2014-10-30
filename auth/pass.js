@@ -39,7 +39,9 @@ passport.use(new FacebookStrategy({
             }
             else {
                 user.fbToken = accessToken;
-                user.email = profile.emails[0].value;
+                if(profile.emails && profile.emails.length >= 1) {
+                    user.email = profile.emails[0].value;
+                }
                 user.save(function(err) {
                     done(null, user);
                 });

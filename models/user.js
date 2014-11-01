@@ -18,7 +18,11 @@ var UserSchema = new Schema({
     fbId: String,
     fbToken: String,
     email: String,
-    name: String
+    name: String,
+    score: {
+        type: Number,
+        default: 0
+    }
 });
 UserSchema.plugin(timestamps);
 

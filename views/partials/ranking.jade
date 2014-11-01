@@ -2,7 +2,18 @@
     .row
         .col-lg-4.col-lg-offset-4.text-center
             h1
-                | Game Ranking
+                | Your rank is \#{{myRank}}
             hr
-            h4
-                | Our Ranking is under construction! We'll send you an Email when it's ready!
+            table.table
+                thead
+                    tr
+                        td(class='col-lg-1')
+                            | Position
+                        td Username
+                        td(class='col-lg-1')
+                            | Score
+                tbody
+                    tr(ng-repeat='user in rank')
+                        td \#{{$index + 1}}
+                        td {{user.username}}
+                        td {{user.score}}

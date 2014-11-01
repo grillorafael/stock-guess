@@ -21,6 +21,7 @@
     "morgan": "~1.0.0",
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
+    "q": "^1.0.1",
     "static-favicon": "~1.0.0",
     "validator": "^3.22.0"
   }

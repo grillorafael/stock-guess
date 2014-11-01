@@ -94,6 +94,18 @@
             return deferred.promise;
         }
 
+        function getGlobalRank() {
+            var deferred = $q.defer();
+            $http.get('/api/guess/global/score')
+                .success(function(result) {
+                    deferred.resolve(result);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
         return {
             getStockFromTheLast: getStockFromTheLast,
             send: send,
@@ -101,7 +113,8 @@
             getStockToGuess: getStockToGuess,
             me: me,
             saveUsername: saveUsername,
-            hasUsername: hasUsername
+            hasUsername: hasUsername,
+            getGlobalRank: getGlobalRank
         };
     }
 })();

@@ -15,5 +15,5 @@
                 tbody
                     tr(ng-repeat='user in rank')
                         td \#{{$index + 1}}
-                        td {{user.username}}
+                        td {{user.username || "anonymous"}}
                         td {{user.score}}

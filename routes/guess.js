@@ -27,6 +27,9 @@ function generateRank(date1, date2) {
     var scoreToSum = 0;
 
     Close.getUnranked(date1, date1).then(function(close) {
+        close.ranked = true;
+        close.save(function(err) {});
+
         // Get an unranked Close
         for(var stockName in close.values) {
             close.values[stockName] = {
@@ -117,12 +120,6 @@ function generateRank(date1, date2) {
                     });
                 }
             });
-        });
-        close.ranked = true;
-        close.save(function(err) {
-            if(err) {
-                console.log('Error saving close');
-            }
         });
     });
 }

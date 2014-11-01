@@ -1,3 +1,11 @@
+a.positive {
+    color: #18b400 !important;
+}
+
+a.negative {
+    color: #f12a2a !important;
+}
+
 .nav-alert {
     margin-top: -21px;
 }

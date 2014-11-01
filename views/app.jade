@@ -9,6 +9,8 @@ block content
                     a(href="#_=_/me") My Guesses
                 li
                     a(href="#_=_/ranking") Ranking
+                li
+                    a(href="#_=_/ranking", class="#{user.score > 0 ? 'positive' : 'negative'}") Score: #{user.score} pts
             ul.nav.navbar-nav.navbar-right
                 li
                     a(href="/logout") Logout

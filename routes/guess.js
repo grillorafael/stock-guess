@@ -28,97 +28,97 @@ function generateRank(date1, date2) {
 
     Close.getUnranked(date1, date1).then(function(close) {
         close.ranked = true;
-        close.save(function(err) {});
+        close.save(function(err) {
+            // Get an unranked Close
+            for(var stockName in close.values) {
+                close.values[stockName] = {
+                    current: close.values[stockName],
+                    minValue: Number.POSITIVE_INFINITY,
+                    maxVale: Number.NEGATIVE_INFINITY
+                };
+            }
 
-        // Get an unranked Close
-        for(var stockName in close.values) {
-            close.values[stockName] = {
-                current: close.values[stockName],
-                minValue: Number.POSITIVE_INFINITY,
-                maxVale: Number.NEGATIVE_INFINITY
-            };
-        }
+            // Indexed by userId
+            var usersScore = {};
 
-        // Indexed by userId
-        var usersScore = {};
+            Guess.averageBetween(date1, date2).then(function(averages) {
+                // Averages structure
 
-        Guess.averageBetween(date1, date2).then(function(averages) {
-            // Averages structure
+                Guess.between(date1, date2).then(function(guesses) {
+                    // All guesses between date
 
-            Guess.between(date1, date2).then(function(guesses) {
-                // All guesses between date
-
-                guesses.forEach(function(guess, index, arr) {
-                    if(!usersScore[guess._user._id]) {
-                        usersScore[guess._user._id] = {
-                            value: 0,
-                            weight: 0
-                        };
-                    }
-
-                    // Setting min and max value per stocks
-                    if(guess.stockValue < close.values[guess.stockName].minValue) {
-                        close.values[guess.stockName].minValue = guess.stockValue;
-                    }
-
-                    if(guess.stockValue > close.values[guess.stockName].maxVale) {
-                        close.values[guess.stockName].maxVale = guess.stockValue;
-                    }
-
-                    var percent = (guess.stockValue / close.values[guess.stockName].current) * 100;
-                    // 0 -> Infinto
-
-                    var day = guess.createdAt.getDay();
-                    // 0 sunday -> 6 saturday
-
-                    var dayWeight = weightMap[day];
-
-                    if(percent <= lowLoseLimiar || percent > hightLoseLimiar) {
-                        usersScore[guess._user._id].weight += dayWeight['-'];
-
-                        if(percent >= (lowLoseLimiar + hightLoseLimiar)) {
-                            usersScore[guess._user._id].value -= (maxLose * dayWeight['-']);
-                            guess.score = (scoreToSum * dayWeight['-']);
+                    guesses.forEach(function(guess, index, arr) {
+                        if(!usersScore[guess._user._id]) {
+                            usersScore[guess._user._id] = {
+                                value: 0,
+                                weight: 0
+                            };
                         }
-                        else {
-                            if(percent > hightLoseLimiar) {
-                                // If 190 -> 10
+
+                        // Setting min and max value per stocks
+                        if(guess.stockValue < close.values[guess.stockName].minValue) {
+                            close.values[guess.stockName].minValue = guess.stockValue;
+                        }
+
+                        if(guess.stockValue > close.values[guess.stockName].maxVale) {
+                            close.values[guess.stockName].maxVale = guess.stockValue;
+                        }
+
+                        var percent = (guess.stockValue / close.values[guess.stockName].current) * 100;
+                        // 0 -> Infinto
+
+                        var day = guess.createdAt.getDay();
+                        // 0 sunday -> 6 saturday
+
+                        var dayWeight = weightMap[day];
+
+                        if(percent <= lowLoseLimiar || percent > hightLoseLimiar) {
+                            usersScore[guess._user._id].weight += dayWeight['-'];
+
+                            if(percent >= (lowLoseLimiar + hightLoseLimiar)) {
+                                usersScore[guess._user._id].value -= (maxLose * dayWeight['-']);
+                                guess.score = (scoreToSum * dayWeight['-']);
+                            }
+                            else {
+                                if(percent > hightLoseLimiar) {
+                                    // If 190 -> 10
+                                    percent = normalizationLimitar - percent;
+                                }
+
+                                scoreToSum = (lowLoseLimiar - percent) * loseSlice;
+
+                                usersScore[guess._user._id].value -= (scoreToSum * dayWeight['-']);
+                                guess.score = (scoreToSum * dayWeight['-']);
+                            }
+                        }
+                        else if(percent > lowLoseLimiar && percent <= hightLoseLimiar) {
+                            usersScore[guess._user._id].weight += dayWeight['+'];
+                            if(percent > 100) {
+                                // If 101 -> 99
                                 percent = normalizationLimitar - percent;
                             }
 
-                            scoreToSum = (lowLoseLimiar - percent) * loseSlice;
-
-                            usersScore[guess._user._id].value -= (scoreToSum * dayWeight['-']);
-                            guess.score = (scoreToSum * dayWeight['-']);
-                        }
-                    }
-                    else if(percent > lowLoseLimiar && percent <= hightLoseLimiar) {
-                        usersScore[guess._user._id].weight += dayWeight['+'];
-                        if(percent > 100) {
-                            // If 101 -> 99
-                            percent = normalizationLimitar - percent;
+                            scoreToSum = (percent - lowLoseLimiar) * winSlice;
+                            usersScore[guess._user._id].value += (scoreToSum * dayWeight['+']);
+                            guess.score = (scoreToSum * dayWeight['+']);
                         }
 
-                        scoreToSum = (percent - lowLoseLimiar) * winSlice;
-                        usersScore[guess._user._id].value += (scoreToSum * dayWeight['+']);
-                        guess.score = (scoreToSum * dayWeight['+']);
-                    }
-
-                    guess.save(function(err) {});
-                });
-
-                for(var userId in usersScore) {
-                    usersScore[userId].value = usersScore[userId].value / usersScore[userId].weight;
-                    User.findOne({
-                        _id: userId
-                    }).exec(function(err, user) {
-                        if(user) {
-                            user.score += usersScore[user._id].value;
-                            user.score = user.score.toFixed(2);
-                            user.save(function(err) {});
-                        }
+                        guess.save(function(err) {});
                     });
-                }
+
+                    for(var userId in usersScore) {
+                        usersScore[userId].value = usersScore[userId].value / usersScore[userId].weight;
+                        User.findOne({
+                            _id: userId
+                        }).exec(function(err, user) {
+                            if(user) {
+                                user.score += usersScore[user._id].value;
+                                user.score = user.score.toFixed(2);
+                                user.save(function(err) {});
+                            }
+                        });
+                    }
+                });
             });
         });
     });

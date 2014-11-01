@@ -25,9 +25,6 @@ CloseSchema.index({
 
 CloseSchema.statics.getUnranked = function(date1, date2) {
     var deferred = Q.defer();
-
-    console.log(date1);
-    console.log(date2);
     this.findOne({
         start: {
             $gte: date1
@@ -41,7 +38,12 @@ CloseSchema.statics.getUnranked = function(date1, date2) {
             deferred.reject(err);
         }
         else {
-            deferred.resolve(close);
+            if(close == null) {
+                deferred.reject(close);
+            }
+            else {
+                deferred.resolve(close);
+            }
         }
     });
 

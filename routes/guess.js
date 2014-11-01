@@ -110,7 +110,7 @@ function generateRank(date1, date2) {
                         _id: userId
                     }).exec(function(err, user) {
                         if(user) {
-                            user.score += usersScore[userId].value;
+                            user.score += usersScore[user._id].value;
                             user.score = user.score.toFixed(2);
                             user.save(function(err) {});
                         }
@@ -119,7 +119,11 @@ function generateRank(date1, date2) {
             });
         });
         close.ranked = true;
-        close.save(function(err) {});
+        close.save(function(err) {
+            if(err) {
+                console.log('Error saving close');
+            }
+        });
     });
 }
 
@@ -138,7 +142,6 @@ router.get('/global/score', function(req, res) {
             console.log(err);
             console.log(users);
             if(users.length > 0) {
-                // TODO
                 var myRank = 0;
                 users.forEach(function(el, index, arr) {
                     if(el.fbId == req.user.fbId) {

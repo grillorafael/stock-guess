@@ -5,6 +5,10 @@ var mongoose = require('mongoose'),
     Q = require('q');
 
 var CloseSchema = new Schema({
+    ranked: {
+        type: Boolean,
+        default: false
+    },
     start: Date,
     end: Date,
     values: Schema.Types.Mixed
@@ -25,12 +29,12 @@ CloseSchema.statics.getUnranked = function(date1, date2) {
     console.log(date1);
     console.log(date2);
     this.findOne({
-        // start: {
-        //     $gte: date1
-        // },
-        // end: {
-        //     $lt: date2
-        // },
+        start: {
+            $gte: date1
+        },
+        end: {
+            $lt: date2
+        },
         ranked: false
     }).exec(function(err, close) {
         if(err) {

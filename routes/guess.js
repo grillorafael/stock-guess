@@ -11,7 +11,7 @@ require('datejs');
 
 var usernameRegex = /^[a-z0-9_-]{3,16}$/i;
 
-function generateRank(date1, date2) {
+function generateRank() {
     var weightMap = config.get('weights');
 
     var maxLose = 500;
@@ -26,7 +26,10 @@ function generateRank(date1, date2) {
 
     var scoreToSum = 0;
 
-    Close.getUnranked(date1, date1).then(function(close) {
+    Close.getUnranked().then(function(close) {
+        var date1 = close.start;
+        var date2 = close.end;
+
         // Get an unranked Close
         for(var stockName in close.values) {
             close.values[stockName] = {
@@ -136,7 +139,7 @@ function generateRank(date1, date2) {
 
 
 router.get('/make/rank', function(req, res) {
-    generateRank(new Date('2014-10-24T04:00:00Z'), new Date('2014-10-31T04:00:00Z'));
+    generateRank();
     res.json({});
 });
 

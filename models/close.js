@@ -26,19 +26,13 @@ CloseSchema.index({
 CloseSchema.statics.getUnranked = function(date1, date2) {
     var deferred = Q.defer();
     this.findOne({
-        start: {
-            $gte: date1
-        },
-        end: {
-            $lt: date2
-        },
         ranked: false
     }).exec(function(err, close) {
         if(err) {
             deferred.reject(err);
         }
         else {
-            if(close == null) {
+            if(close === null) {
                 deferred.reject(close);
             }
             else {

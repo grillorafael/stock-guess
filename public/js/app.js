@@ -10,6 +10,10 @@
                     templateUrl: '/partials/index',
                     controller: 'IndexCtrl'
                 })
+                .when('/closes', {
+                    templateUrl: '/partials/closes',
+                    controller: 'ClosesCtrl'
+                })
                 .when('/terms', {
                     templateUrl: '/partials/terms',
                     controller: 'TermCtrl'

@@ -118,6 +118,18 @@
             return deferred.promise;
         }
 
+        function getCloses() {
+            var deferred = $q.defer();
+            $http.get('/api/guess/closes')
+                .success(function(result) {
+                    deferred.resolve(result);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
         return {
             getStockFromTheLast: getStockFromTheLast,
             send: send,
@@ -127,7 +139,8 @@
             saveUsername: saveUsername,
             hasUsername: hasUsername,
             getGlobalRank: getGlobalRank,
-            getBonusStockToGuess: getBonusStockToGuess
+            getBonusStockToGuess: getBonusStockToGuess,
+            getCloses: getCloses
         };
     }
 })();

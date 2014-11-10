@@ -1,0 +1,21 @@
+.container
+    .row
+        .col-lg-4.col-lg-offset-4.text-center
+            h1
+                | Stock Values
+    .row
+        .col-lg-12
+            .col-lg-3(ng-repeat='close in closes')
+                .panel.panel-default
+                    .panel-heading.text-center
+                        strong
+                            | {{close.start | date}} - {{close.end | date}}
+                    table(class='table')
+                        thead
+                            tr
+                                td Stock
+                                td.text-right Value
+                        tbody
+                            tr(ng-repeat='(name, value) in close.values')
+                                td {{name}}
+                                td.text-right {{value | currency}}

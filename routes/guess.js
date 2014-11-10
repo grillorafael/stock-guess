@@ -139,7 +139,7 @@ function generateRank() {
 
 
 router.get('/closes', function(req, res) {
-    Close.find().select('start end values').sort('start').exec(function(err, closes) {
+    Close.find().select('start end values').sort('-start').exec(function(err, closes) {
         res.json(closes);
     });
 });

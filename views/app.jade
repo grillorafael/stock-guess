@@ -17,6 +17,9 @@ block content
     if !hasUsername
         .alert.alert-warning.text-center.nav-alert(ng-hide='hideAlert')
             | You don't have a <strong>username</strong>. If you want your guesses to be identified please <a href="#_=_/username">create a username</a>
+    if bonusWeek
+        .alert.alert-success.text-center.nav-alert
+            | This is Stock Guess <strong>Bonus Week</strong>! Try our <strong>Bonus Stocks</strong>! When you finish guessing our regular stocks you can try our bonus round!
     if hasAgreed
         div(ng-view)
     else

@@ -259,6 +259,35 @@ router.get('/choice/avaliable', function(req, res) {
     });
 });
 
+router.get('/bonus/choice/avaliable', function(req, res) {
+    var bonusWeek = config.get('bonusWeek');
+    if(bonusWeek) {
+        var choices = config.get('bonusStocks').slice(0);
+        var user = req.user;
+
+        Guess.find({
+            _user: user._id,
+            createdAt: {
+                $gt: Date.today()
+            }
+        }).exec(function(err, guesses) {
+            guesses.forEach(function(el, index) {
+                var idx = choices.indexOf(el.stockName);
+                if(idx !== -1) {
+                    choices.splice(idx, 1);
+                }
+            });
+
+            res.json({
+                stockName: choices[Math.floor(Math.random()*choices.length)]
+            });
+        });
+    }
+    else {
+        res.json({});
+    }
+});
+
 /* GET home page. */
 router.post('/', function(req, res) {
     var user = req.user;

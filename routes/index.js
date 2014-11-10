@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var auth = require('../auth/auth');
+var config = require('config');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -11,8 +12,10 @@ router.get('/app', auth.ensureAuthenticated, function(req, res) {
     var user = req.user;
     var hasUsername = !!user.username;
     var hasAgreed = user.agreed;
+    var bonusWeek = config.get('bonusWeek');
 
     res.render('app', {
+        bonusWeek: bonusWeek,
         user: user,
         hasUsername: hasUsername,
         hasAgreed: hasAgreed

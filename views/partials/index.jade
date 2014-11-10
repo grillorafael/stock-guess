@@ -5,11 +5,14 @@
     div(ng-if='!allSent')
         .row
             .col-lg-4.col-md-4.col-lg-offset-4.col-md-offset-4
+                h3.text-center(ng-if='isBonus')
+                    span.label.label-warning Bonus Round!
                 #container(style="height: 200px; min-width: 310px")
         br
         .row(ng-if='!sent')
             .col-lg-4.col-md-4.col-lg-offset-4.col-md-offset-4.text-center
-                h4 Guess the stock for {{evaluateDate  | date}}
+                h4
+                    | Guess the stock for {{ evaluateDate  | date }}
         .row
             .col-lg-4.col-md-4.col-lg-offset-4.col-md-offset-4
                 form(ng-submit='send()', novalidate, ng-if='!sent')
@@ -21,8 +24,10 @@
                             button(class="btn btn-default", type="submit") Send
                 div(ng-if='sent', class='text-center')
                     h4 Thank you for your guess!
-                    h4
-                        a(href='/app') Try another stock!
+                    h4(ng-if='!hasBonus')
+                        a(href="", ng-click='loadNextGuess()') Try another stock!
+                    h4(ng-if='hasBonus')
+                        a(href="", ng-click='loadNextGuess()') BONUS ROUND! Click here to try it!
     .text-center(ng-if='allSent')
         .row
             .col-lg-4.col-md-4.col-lg-offset-4.col-md-offset-4

@@ -58,6 +58,18 @@
             return deferred.promise;
         }
 
+        function getBonusStockToGuess() {
+            var deferred = $q.defer();
+            $http.get('/api/guess/bonus/choice/avaliable')
+                .success(function(guess) {
+                    deferred.resolve(guess);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
         function me() {
             var deferred = $q.defer();
             $http.get('/api/guess/me')
@@ -114,7 +126,8 @@
             me: me,
             saveUsername: saveUsername,
             hasUsername: hasUsername,
-            getGlobalRank: getGlobalRank
+            getGlobalRank: getGlobalRank,
+            getBonusStockToGuess: getBonusStockToGuess
         };
     }
 })();

@@ -130,6 +130,30 @@
             return deferred.promise;
         }
 
+        function getFirstPlay() {
+            var deferred = $q.defer();
+            $http.get('/api/guess/firstPlay')
+                .success(function(result) {
+                    deferred.resolve(result);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
+        function setFirstPlay() {
+            var deferred = $q.defer();
+            $http.post('/api/guess/firstPlay')
+                .success(function(result) {
+                    deferred.resolve(result);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        }
+
         return {
             getStockFromTheLast: getStockFromTheLast,
             send: send,
@@ -140,7 +164,9 @@
             hasUsername: hasUsername,
             getGlobalRank: getGlobalRank,
             getBonusStockToGuess: getBonusStockToGuess,
-            getCloses: getCloses
+            getCloses: getCloses,
+            getFirstPlay: getFirstPlay,
+            setFirstPlay: setFirstPlay
         };
     }
 })();

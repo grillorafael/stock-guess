@@ -1,6 +1,6 @@
 (function() {
     angular.module('stock').controller('IndexCtrl', IndexCtrl);
-    function IndexCtrl($scope, StockAPI) {
+    function IndexCtrl($scope, StockAPI, $timeout) {
         $scope.guess = {};
 
         StockAPI.nextAvailableDate().then(function(data) {
@@ -16,6 +16,7 @@
 
                     $scope.allSent = false;
                     $scope.sent = false;
+                    checkFirstPlay();
                 }
                 else {
                     StockAPI.getBonusStockToGuess().then(function(guess) {
@@ -35,8 +36,42 @@
             });
         }
 
-        $scope.loadNextGuess = loadNextGuess;
+        function checkFirstPlay() {
+            StockAPI.getFirstPlay().then(function(user) {
+                if(user.firstPlay) {
+                    $timeout(function() {
+                        var tour = new Tour({
+                            onEnd: function (tour) {
+                                StockAPI.setFirstPlay().then(function(user) {
+                                    console.log(user);
+                                });
+                            },
+                            steps: [
+                            {
+                                element: "#container",
+                                title: "Analyse",
+                                content: "Evaluate the stock history"
+                            },
+                            {
+                                element: "#evaluateDate",
+                                title: "Evaluate",
+                                content: "Think about the value of the stock in a given date"
+                            },
+                            {
+                                element: ".input-group",
+                                title: "Type your guess",
+                                content: "Type your guess and share with the world how good you are."
+                            }]
+                        });
 
+                        // tour.init();
+                        // tour.start(true);
+                    });
+                }
+            });
+        }
+
+        $scope.loadNextGuess = loadNextGuess;
         $scope.send = function() {
             console.log($scope.guess);
             StockAPI.send($scope.guess).then(function(result) {
@@ -60,7 +95,7 @@
         };
 
         function plotGraphic() {
-            StockAPI.getStockFromTheLast($scope.guess.stockName, 7).then(function(response) {
+            StockAPI.getStockFromTheLast($scope.guess.stockName, 10).then(function(response) {
                 var data = _.map(response.Dates, function(value, index) {
                     var date = Date.parse(value).getTime();
                     return [date, response.Elements[0].DataSeries.close.values[index]];

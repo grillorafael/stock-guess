@@ -15,7 +15,7 @@
                         td(class='col-lg-1')
                             | Score (pts)
                 tbody
-                    tr(ng-repeat='user in rank')
+                    tr(ng-repeat='user in rank', ng-class="{'success': $index == myRank-1}")
                         td \#{{$index + 1}}
                         td {{user.username || "anonymous"}}
                         td {{user.score}}

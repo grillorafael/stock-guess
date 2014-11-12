@@ -11,7 +11,7 @@
     },
     "bonusWeek": true,
     "bonusStocks": ["MSFT", "TWTR"],
-    "availableStocks": ["AAPL", "GOOGL", "FCAP", "HPQ"],
+    "availableStocks": ["AAPL", "GOOGL", "INTC", "HPQ"],
     "weights": {
         "0": {
             "+": 0.32,

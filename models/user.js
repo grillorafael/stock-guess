@@ -14,6 +14,10 @@ var UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    firstPlay: {
+        type: Boolean,
+        default: true
+    },
     gender: String,
     fbId: String,
     fbToken: String,

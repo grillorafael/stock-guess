@@ -335,4 +335,29 @@ router.get('/me', function(req, res) {
     });
 });
 
+router.get('/firstPlay', function(req, res) {
+    var user = req.user;
+    User.findOne({
+        _id: user._id
+    }).exec(function(err, user) {
+        res.json({
+            firstPlay: user.firstPlay
+        });
+    });
+});
+
+router.post('/firstPlay', function(req, res) {
+    var user = req.user;
+    User.findOne({
+        _id: user._id
+    }).exec(function(err, user) {
+        user.firstPlay = false;
+        user.save(function(err) {
+            res.json({
+                error: err
+            });
+        });
+    });
+});
+
 module.exports = router;

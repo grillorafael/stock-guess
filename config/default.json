@@ -9,7 +9,7 @@
         "host": "localhost",
         "port": 6379
     },
-    "bonusWeek": true,
+    "bonusWeek": false,
     "bonusStocks": ["MSFT", "TWTR"],
     "availableStocks": ["AAPL", "GOOGL", "INTC", "HPQ"],
     "weights": {
